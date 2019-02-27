@@ -5,3 +5,5 @@
 
 
 ;;Mariano esperando la respuesta de karla
+
+(define(laplace 3))
