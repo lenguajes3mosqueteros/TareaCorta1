@@ -4,7 +4,4 @@
 ;;Indice de Funciones
 
 
-;;Mariano Haciendo la prueba 1
-
-
-bla bka basdfad
+;;Mariano esperando la respuesta de karla
