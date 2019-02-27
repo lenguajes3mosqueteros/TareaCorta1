@@ -1,15 +1,6 @@
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-advanced-reader.ss" "lang")((modname TareaCorta1) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 ;;Indice de Funciones
 
 
-;;Mariano esperando la respuesta de karla
-;;karls
 
-(define(laplace 3))
+(define (CCCE2019 equipo_1 equipo_2 generaciones_geneticas))
 
-;;Esperando la respuesta de Daniel
-;;Respuesta de Daniel
-;;Prueba con Karla
-;;Prueba de Karla en Visual Code
