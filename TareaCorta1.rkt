@@ -18,7 +18,26 @@ Estructura del balon
 ;;#1 
 ;;#2
 ;;#3
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;VARIABLES
+(define contador_formacion 0)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define (hacer_jugadores equipo)
+    (cond 
+        ((null? equipo) '())
+        (else
+            (hacer_jugadores_aux (car equipo) contador_formacion)
+        )   
+    )
+)
+
+(define (hacer_jugadores_aux cant_jugadores linea)
+    (cond 
+        ((equal? cant_jugadores 0) '())
+        (else
+            ()
+        
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
