@@ -9,7 +9,7 @@
 #|
 Estructura del Jugador
 
-(# habilidad fuerza (pos inicial) (pos final) habilidad aptitud tipo)
+(# habilidad fuerza (pos inicial) (pos final) velocidad aptitud tipo)
 
 Estructura del balon
 ((pos inicial) (pos final) velocidad)
@@ -19,26 +19,31 @@ Estructura del balon
 ;;#2
 ;;#3
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;VARIABLES
-(define contador_formacion 0)
+;;CONSTANTES
+(define numeros '(0 1 2 3 4 5 6 7 8 9 10))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (hacer_jugadores equipo)
-    (cond 
-        ((null? equipo) '())
-        (else
-            (hacer_jugadores_aux (car equipo) contador_formacion)
-        )   
-    )
-)
 
-(define (hacer_jugadores_aux cant_jugadores linea)
-    (cond 
-        ((equal? cant_jugadores 0) '())
-        (else
-            ()
-        
+(define(numero-random)
+  (list-ref numeros (random (length numeros))))
 
+(define(hacer_portero)
+  (list '1 (numero-random) (numero-random) (numero-random) (numero-random) (numero-random) '0 'portero)) 
+
+(define(hacer_j tipo)
+  (list '1 (numero-random) (numero-random) (numero-random) (numero-random) (numero-random) '0 tipo)) 
+
+(define (hacer_equipos formacion)
+  (cond((null? formacion) (list (hacer_portero)))
+       ((equal? (length formacion) 3) (list (hacer_bloque(- (car formacion)1) 'defensa) (hacer_equipos (cdr formacion))))
+       ((equal? (length formacion) 2) (list (hacer_bloque(- (car formacion)1) 'medio_campista) (hacer_equipos (cdr formacion))))
+       (else
+        (list (hacer_bloque(- (car formacion)1) 'delantero) (hacer_equipos (cdr formacion))))))
+
+(define (hacer_bloque cant_jugadores tipo)
+  (cond ((zero? cant_jugadores) (hacer_j tipo))
+        (else
+         (list  (hacer_j tipo) (hacer_bloque (- cant_jugadores 1) tipo)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
