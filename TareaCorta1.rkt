@@ -6,6 +6,7 @@
 ;;
 
 ;;NO VEO A NADIE HACIENDO CAMBIOS
+;;NECESITAMOS AVANZAR
 
 #|
 Estructura del Jugador
