@@ -9,8 +9,33 @@
 ;;NECESITAMOS AVANZAR
 
 #|
-Estructura del Jugador
 
+;; Estructura completa
+(E1
+  (((2 13 6 4 (84 568) 17 0 defensa)
+    (3 9 3 9 (226 587) 8 0 defensa)
+    (4 17 18 2 (579 17) 5 0 defensa)
+    (5 4 0 16 (160 588) 6 0 defensa))
+   ((6 2 0 17 (589 385) 2 0 medio_campista)
+    (7 10 6 2 (821 130) 14 0 medio_campista)
+    (8 0 2 3 (304 60) 16 0 medio_campista)
+    (9 7 0 18 (730 441) 17 0 medio_campista))
+   ((10 3 3 1 (547 241) 15 0 delantero)
+    (11 10 3 16 (623 214) 11 0 delantero))
+   ((1 4 0 11 (460 540) 17 0 portero)))
+  E2
+  (((2 4 18 13 (20 261) 0 0 defensa)
+    (3 5 9 0 (349 323) 5 0 defensa)
+    (4 13 4 4 (907 10) 5 0 defensa)
+    (5 15 1 16 (145 639) 0 0 defensa)
+    (6 2 2 5 (334 487) 9 0 defensa))
+   ((7 19 16 16 (410 42) 8 0 medio_campista)
+    (8 16 6 19 (441 483) 7 0 medio_campista)
+    (9 17 4 2 (477 612) 4 0 medio_campista))
+   ((10 9 5 3 (590 40) 16 0 delantero)
+    (11 12 18 1 (68 454) 2 0 delantero))
+   ((1 8 16 17 (671 565) 12 0 portero))))
+Estructura del Jugador
 (dorsal habilidad fuerza velocidad (pos inicial) (pos final)  aptitud tipo)
 
 Estructura del balon
