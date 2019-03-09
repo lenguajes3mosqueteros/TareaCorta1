@@ -47,6 +47,8 @@ Estructura del balon
 ;;#3
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;CONSTANTES
+(define largo_campo 1350)
+(define ancho_campo 650) 
 (define numero_dorsal 2)
 
 
@@ -56,23 +58,24 @@ Estructura del balon
 (define (CCCE2019 equipo_1 equipo_2)
   (cond ((or (> (suma_elementos equipo_1) 10) (> (suma_elementos equipo_2) 10))#f)
         (else
-         (append (list 'E1 (hacer_equipos equipo_1))(list 'E2 (hacer_equipos equipo_2))))))
+         (append (list 'E1 (hacer_equipos equipo_1 numero_dorsal 1))(list 'E2 (hacer_equipos equipo_2 numero_dorsal 2))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Funcion Hacer Equipos
 ;;E: Una lista que indica la formacion de un equipo de jugadores
 ;;S: Una lista con las estructuras de los jugadores
-(define (hacer_equipos formacion)
-  (cond((null? formacion) (list (hacer_portero)))
+(define (hacer_equipos formacion dorsal numero_equipo)
+  (cond((null? formacion) (list(list (hacer_portero))))
        ((equal? (length formacion) 3)
-         (cons (hacer_bloque_defensivo (car formacion) (+ (suma_elementos_hasta formacion 1) 4))
-               (hacer_equipos (cdr formacion))
-               ))
+         (cons (hacer_bloque_defensivo (car formacion) dorsal)
+               (hacer_equipos (cdr formacion) (+ dorsal (car formacion))numero_equipo)))
        ((equal? (length formacion) 2)
-        (cons (hacer_bloque_central(car formacion) (suma_elementos_hasta formacion 1)) (hacer_equipos (cdr formacion))))
+        (cons (hacer_bloque_central(car formacion) dorsal)
+              (hacer_equipos (cdr formacion) (+ dorsal (car formacion)) numero_equipo)))
        (else
-        (cons (hacer_bloque_delantero(car formacion) numero_dorsal) (hacer_equipos (cdr formacion))))))
+        (cons (hacer_bloque_delantero(car formacion) dorsal)
+              (hacer_equipos (cdr formacion) (+ dorsal (car formacion)) numero_equipo)))))
        
 
 
@@ -81,26 +84,26 @@ Estructura del balon
 ;;E: -
 ;;S: la estructura de un jugador de tipo portero
 (define(hacer_portero)
-  (list '1 (numero-random) (numero-random) (numero-random) (numero-random) (numero-random) '0 'portero)) 
+  (list '1 (numero-random) (numero-random) (numero-random) (posicion_random) (numero-random) '0 'portero)) 
 
 
 ;;Funcion Hacer Delantero
 ;;E: numero de dorsal
 ;;S: Estructura de un delantero
 (define(hacer_jugador_delantero dorsal)
-  (list dorsal (numero-random) (numero-random) (numero-random) (numero-random) (numero-random) '0 'delantero))
+  (list dorsal (numero-random) (numero-random) (numero-random) (posicion_random) (numero-random) '0 'delantero))
 
 ;;Funcion Hacer Medio Campista
 ;;E: numero de dorsal
 ;;S: Estructura de un central
 (define(hacer_jugador_central dorsal)
-  (list dorsal (numero-random) (numero-random) (numero-random) (numero-random) (numero-random) '0 'medio_campista))
+  (list dorsal (numero-random) (numero-random) (numero-random) (posicion_random) (numero-random) '0 'medio_campista))
 
 ;;Funcion Hacer Defensa
 ;;E: numero de dorsal
 ;;S: Estructura de un Defensa
 (define(hacer_jugador_defensa dorsal)
-  (list dorsal (numero-random) (numero-random) (numero-random) (numero-random) (numero-random) '0 'defensa))
+  (list dorsal (numero-random) (numero-random) (numero-random) (posicion_random) (numero-random) '0 'defensa))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Funcion Bloque Defensivo
@@ -128,9 +131,10 @@ Estructura del balon
          (cons  (hacer_jugador_delantero dorsal) (hacer_bloque_delantero (- cant_jugadores 1) (+ dorsal 1))))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;Getters y Setters;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
+(define (obtener_dorsal lista_jugador) (elemento_en_posicion lista_jugador 0))
 
 
 
@@ -162,9 +166,30 @@ Estructura del balon
 ;;S: Un numero aleatorio
 (define(numero-random)
   (random 0 20))
+
+;;Funcion que devuelve una posicion
+;;E: -
+;;S: Posicion random
+(define (posicion_random)
+  (list (random 0 1080)(random 0 680)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define(inversa lista)
   (cond ((null? lista) '())
         (else (append (inversa (cdr lista)) (list(car lista))))))
+
+;;Funcion Devuelve en posicion.
+;;E: lista y una posicion en lista
+;;S: elemento de la posiscion
+(define (elemento_en_posicion lista posicion)
+  (cond ((< (length lista) posicion) #f)
+        (else (elemento_en_posicion_aux lista posicion 0))))
+(define(elemento_en_posicion_aux lista posicion indice)
+  (cond ((equal? posicion indice) (car lista))
+        (else (elemento_en_posicion_aux (cdr lista) posicion (+ 1 indice)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Funcion Nueva Posicion
+
+;;(define (nueva_pos lista)v
