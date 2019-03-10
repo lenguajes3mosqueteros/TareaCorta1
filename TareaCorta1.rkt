@@ -212,10 +212,8 @@ Estructura del balon
         (else
          (cons (quotient (+(car listaA)(car listaB))2) (nueva_pos (cdr listaA) (cdr listaB))))))
 
-<<<<<<< HEAD
 (define (seleccionar_azar lista)
   (seleccionar_azar_aux lista 0 (hacer_lista_random (random 0 4))))
-=======
 ;;Algoritmo Genético, hagamos pruebas
 (define(sum lista)
   (cond((null? lista)
@@ -299,7 +297,6 @@ Estructura del balon
         lista)
        (mutacion-aux (cdr lista) mutacion (+ resultado porcentaje (car lista))))) 
 
->>>>>>> f0a96bcb02fe8b47bc9fd3d42f63bc1b8e3aaef0
 
 (define (seleccionar_azar_aux lista iteracion pos_por_mutar)
   (cond ((null lista?) '())
