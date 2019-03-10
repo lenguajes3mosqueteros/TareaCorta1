@@ -212,6 +212,108 @@ Estructura del balon
         (else
          (cons (quotient (+(car listaA)(car listaB))2) (nueva_pos (cdr listaA) (cdr listaB))))))
 
+<<<<<<< HEAD
+(define (seleccionar_azar lista)
+  (seleccionar_azar_aux lista 0 (hacer_lista_random (random 0 4))))
+=======
+;;Algoritmo Genético, hagamos pruebas
+(define(sum lista)
+  (cond((null? lista)
+        0)
+       (else
+        (+ (car lista) (sum (cdr lista))))))
 
+(define(promedio lista)
+  (cond((null? lista)
+        0)
+       (else
+        (/ (sum lista)  (length lista)))))
 
-  
+(define(cuadrado num)
+  (* num num))
+
+(define(hipotenusa a b)
+  (cond((zero? a)
+        (cuadrado b))
+       ((zero? b)
+        (cuadrado a))
+       (else
+        (+ (cuadrado a) (cuadrado b)))))
+
+(define(elemento index lista)
+  (cond((null? lista)
+        '())
+       ((equal? index 1)
+        (car lista))
+       (else
+        (elemento (- index 1) (cdr lista)))))
+
+(define(mayor ele lista)
+  (cond((null? lista)
+        ele)
+       ((< ele (car lista))
+        (mayor (car lista) (cdr lista)))
+       (else
+        (mayor ele (cdr lista)))))
+
+(define(aplicar fun lista)
+  (cond((null? lista)
+        '())
+       (else
+        (cons (fun (car lista)) (aplicar fun (cdr lista))))))
+
+(define(reproduccion parentA parentB)
+  (cond((null? parentA)
+        parentB)
+       ((null? parentB)
+        parentA)
+       (else
+        (append(promedio_especial parentA (car parentB))(reproduccion parentA (cdr parentB))))))
+
+(define(aptitud lista)
+  (cond((null? lista)
+        0)
+       (else
+        (append(aptitud-aux(car lista))(aptitud (cdr lista))))))
+
+(define(aptitud-aux)
+  (cond((null? lista)
+        0)
+       (else
+        (promedio lista))))
+
+(define(seleccion lista)
+  (cond((null? lista)
+        0)
+       (else
+        (mayor(aptitud lista)))))
+
+(define(mutacion lista)
+  (cond((null? lista)
+        lista)
+       (else
+        (mutacion-aux (elemento (seleccion lista) lista) (random 8) '()))))
+
+(define(mutacion-aux lista porcentaje resultado)
+  (cond((null? lista)
+        lista)
+       (mutacion-aux (cdr lista) mutacion (+ resultado porcentaje (car lista))))) 
+
+>>>>>>> f0a96bcb02fe8b47bc9fd3d42f63bc1b8e3aaef0
+
+(define (seleccionar_azar_aux lista iteracion pos_por_mutar)
+  (cond ((null lista?) '())
+        ((equal? (car pos_por_mutar) iteracion) (cons (mutar_pos (car lista)) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (cdr pos_por_mutar))))
+        (else
+         (cons (car lista) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (pos_por_mutar))))))
+
+(define (hacer_lista_random cant)
+  (cond((zero? cant) '())
+       (else
+        (cons (random 1 4)(hacer_lista_random (- cant 1))))))
+
+(define (mutar_pos elemento)
+  (mutar_pos_aux (binario elemento) (random 0 5) 0))
+(define (mutar_pos_aux num_binario pos iteracion)
+  (cond ((zer
+
