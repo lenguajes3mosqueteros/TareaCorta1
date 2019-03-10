@@ -37,6 +37,7 @@
    ((1 8 16 17 (671 565) 12 0 portero))))
 Estructura del Jugador
 (dorsal habilidad fuerza velocidad (pos inicial) (pos final)  aptitud tipo)
+(  0        1        2      3             4         5           6       7 )
 
 Estructura del balon
 ((pos inicial) (pos final) velocidad)
@@ -46,6 +47,7 @@ Estructura del balon
 ;;#2
 ;;#3
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+#lang racket
 ;;CONSTANTES
 (define largo_campo 1350)
 (define ancho_campo 650) 
@@ -134,7 +136,11 @@ Estructura del balon
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;Getters y Setters;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (obtener_dorsal lista_jugador) (elemento_en_posicion lista_jugador 0))
+(define (obtener_dorsal lista) (elemento_en_posicion lista 0))
+(define (obtener_posicion_inicial lista) (elemento_en_posicion lista 4))
+(define (obtener_posicion_final lista) (elemento_en_posicion lista 5))
+(define (obtener_velocidad lista) (elemento_en_posicion lista 3))
+(define (obtener_tipo lista) (elemento_en_posicion lista 7))
 
 
 
@@ -190,6 +196,22 @@ Estructura del balon
         (else (elemento_en_posicion_aux (cdr lista) posicion (+ 1 indice)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Funcion Nueva Posicion
+(define (promedio_especial listaA listaB)
+  (promedio_especial_aux listaA listaB 0))
+(define (promedio_especial_aux listaA listaB indice)
+  (cond ((equal? 8 indice) '())
+        ((equal? 7 indice) (cons (obtener_tipo listaA) (promedio_especial_aux listaA listaB (+ indice 1))))
+        ((equal? 5 indice) (cons (nueva_pos (obtener_posicion_inicial listaA)(obtener_posicion_inicial listaB)) (promedio_especial_aux listaA listaB (+ indice 1))))
+        ((equal? 4 indice) (cons (obtener_posicion_final listaA) (promedio_especial_aux listaA listaB (+ indice 1))))
+        ((zero? indice ) (cons (obtener_dorsal listaA) (promedio_especial_aux listaA listaB (+ indice 1))))
+        (else
+         (cons (quotient (+ (elemento_en_posicion listaA indice)(elemento_en_posicion listaB indice)) 2) (promedio_especial_aux listaA listaB (+ indice 1))))))
 
-;;(define (nueva_pos lista)v
+(define (nueva_pos listaA listaB)
+  (cond ((null? listaA) '())
+        (else
+         (cons (quotient (+(car listaA)(car listaB))2) (nueva_pos (cdr listaA) (cdr listaB))))))
+
+
+
+  
