@@ -2,7 +2,7 @@
 ;; Tarea Corta 1
 ;; CCCE2019
 ;; Mariano Munioz Masis, Karla Rivera Sanchez, Daniel Prieto Sibaja
-;; 2016121607, 2016100425, 2016XXXXXX
+;; 2016121607, 2016100425, 2016072504
 ;;
 
 ;;NO VEO A NADIE HACIENDO CAMBIOS
