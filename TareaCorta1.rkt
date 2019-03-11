@@ -2,7 +2,7 @@
 ;; Tarea Corta 1
 ;; CCCE2019
 ;; Mariano Munioz Masis, Karla Rivera Sanchez, Daniel Prieto Sibaja
-;; 2016121607, 2016100425, 2016XXXXXX
+;; 2016121607, 2016100425, 2016072504
 ;;
 
 ;;NO VEO A NADIE HACIENDO CAMBIOS
@@ -280,7 +280,7 @@ Estructura del balon
        (else
         (append(aptitud-aux(car lista))(aptitud (cdr lista))))))
 
-(define(aptitud-aux)
+(define(aptitud-aux lista)
   (cond((null? lista)
         0)
        (else
@@ -290,7 +290,7 @@ Estructura del balon
   (cond((null? lista)
         0)
        (else
-        (mayor(aptitud lista)))))
+        (elemento (mayor(aptitud lista)) lista))))
 
 (define(mutacion lista)
   (cond((null? lista)
@@ -303,6 +303,11 @@ Estructura del balon
         lista)
        (mutacion-aux (cdr lista) mutacion (+ resultado porcentaje (car lista))))) 
 
+(define(algoritmo-genetico lista)
+  (cond((null? lista)
+        0)
+       (else
+        (mutacion(seleccion(reproduccion (car lista) (cdr lista)))))))
 
 (define (seleccionar_azar_aux lista iteracion pos_por_mutar)
   (cond ((null lista?) '())
@@ -319,4 +324,5 @@ Estructura del balon
   (mutar_pos_aux (binario elemento) (random 0 5) 0))
 (define (mutar_pos_aux num_binario pos iteracion)
   (cond ((zer
+
 
