@@ -48,10 +48,14 @@ Estructura del balon
 ;;#3
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 #lang racket
+#lang racket
 ;;CONSTANTES
 (define largo_campo 1350)
 (define ancho_campo 650) 
 (define numero_dorsal 2)
+
+(define equipo1 '())
+(define equipo2 '()) 
 
 
 
@@ -60,7 +64,9 @@ Estructura del balon
 (define (CCCE2019 equipo_1 equipo_2)
   (cond ((or (> (suma_elementos equipo_1) 10) (> (suma_elementos equipo_2) 10))#f)
         (else
-         (append (list 'E1 (hacer_equipos equipo_1 numero_dorsal 1))(list 'E2 (hacer_equipos equipo_2 numero_dorsal 2))))))
+         (set! equipo1 (hacer_equipos equipo_1 numero_dorsal 1))
+         (set! equipo2 (hacer_equipos equipo_2 numero_dorsal 2))
+         (append (list 'E1 equipo1)(list 'E2 equipo2)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
