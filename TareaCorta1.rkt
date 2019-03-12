@@ -324,5 +324,14 @@ Estructura del balon
 (define(mutacion-aux lista porcentaje resultado)
   (cond((null? lista)
         lista)
-       (mutacion-aux (cdr lista) mutacion (+ resultado porcentaje (car lista))))) 
+       (else
+        (mutacion-aux (cdr lista) porcentaje (+ resultado porcentaje (car lista))))))
+
+(define(genetico lista)
+  (cond((null? lista)
+        0)
+       (else
+        (append(mutacion (seleccion (reproduccion (car lista) (cdr lista)))) (genetico (cdr lista))))))
+
+
 
