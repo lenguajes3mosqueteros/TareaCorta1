@@ -48,7 +48,6 @@ Estructura del balon
 ;;#3
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 #lang racket
-#lang racket
 ;;CONSTANTES
 (define largo_campo 1350)
 (define ancho_campo 650) 
@@ -85,9 +84,6 @@ Estructura del balon
         (cons (hacer_bloque_delantero(car formacion) dorsal)
               (hacer_equipos (cdr formacion) (+ dorsal (car formacion)) numero_equipo)))))
        
-
-
-
 ;;Funcion: Hacer Portero
 ;;E: -
 ;;S: la estructura de un jugador de tipo portero
@@ -143,9 +139,12 @@ Estructura del balon
 ;;;;;;;;;;;;;;;;;;;;;Getters y Setters;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (obtener_dorsal lista) (elemento_en_posicion lista 0))
+(define (obtener_habilidad lista) (elemento_en_posicion lista 1))
+(define (obtener_fuerza lista) (elemento_en_posicion lista 2))
+(define (obtener_velocidad lista) (elemento_en_posicion lista 3))
 (define (obtener_posicion_inicial lista) (elemento_en_posicion lista 4))
 (define (obtener_posicion_final lista) (elemento_en_posicion lista 5))
-(define (obtener_velocidad lista) (elemento_en_posicion lista 3))
+(define (obtener_aptitud lista) (elemento_en_posicion lista 6))
 (define (obtener_tipo lista) (elemento_en_posicion lista 7))
 
 
@@ -157,7 +156,7 @@ Estructura del balon
   (cond ((zero? indice) 0)
         (else
          ( + (suma_elementos_hasta_aux (car lista)) (suma_elementos_hasta (cdr lista) (- indice 1)))))) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (suma_elementos_hasta_aux cant)
   (cond ((zero? cant) 0)
         (else (+ 1 (suma_elementos_hasta_aux (- cant 1))))))
@@ -168,7 +167,7 @@ Estructura del balon
   (cond ((null? lista) 0)
         (else
          ( + (suma_elementos_aux (car lista)) (suma_elementos (cdr lista)))))) 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define (suma_elementos_aux cant)
   (cond ((zero? cant) 0)
         (else (+ 1 (suma_elementos_aux (- cant 1))))))
@@ -185,12 +184,11 @@ Estructura del balon
 (define (posicion_random)
   (list (random 0 1080)(random 0 680)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
+;;Funcion Inversa de una Lista
 (define(inversa lista)
   (cond ((null? lista) '())
         (else (append (inversa (cdr lista)) (list(car lista))))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Funcion Devuelve en posicion.
 ;;E: lista y una posicion en lista
 ;;S: elemento de la posiscion
@@ -212,30 +210,55 @@ Estructura del balon
         ((zero? indice ) (cons (obtener_dorsal listaA) (promedio_especial_aux listaA listaB (+ indice 1))))
         (else
          (cons (quotient (+ (elemento_en_posicion listaA indice)(elemento_en_posicion listaB indice)) 2) (promedio_especial_aux listaA listaB (+ indice 1))))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (nueva_pos listaA listaB)
   (cond ((null? listaA) '())
         (else
          (cons (quotient (+(car listaA)(car listaB))2) (nueva_pos (cdr listaA) (cdr listaB))))))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (seleccionar_azar lista)
   (seleccionar_azar_aux lista 0 (hacer_lista_random (random 0 4))))
+
+(define (seleccionar_azar_aux lista iteracion pos_por_mutar)
+  (cond ((null? lista) '())
+        ((equal? (car pos_por_mutar) iteracion) (cons (mutar_pos (car lista)) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (cdr pos_por_mutar))))
+        (else
+         (cons (car lista) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (pos_por_mutar))))))
+
+(define (hacer_lista_random cant)
+  (cond((zero? cant) '())
+       (else
+        (cons (random 1 4)(hacer_lista_random (- cant 1))))))
+
+(define (mutar_pos elemento) 0)
+ ;; (mutar_pos_aux (binario elemento) (random 0 5) 0))
+;;(define (mutar_pos_aux num_binario pos iteracion)
+  ;;(cond ((zer
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;ALGORITMO GENETICO;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Algoritmo Genético, hagamos pruebas
+
+;;Funcion que suma todos los elementos de una lista
 (define(sum lista)
   (cond((null? lista)
         0)
        (else
         (+ (car lista) (sum (cdr lista))))))
-
+;; Funcion que devuelve el promedio de una lista
 (define(promedio lista)
   (cond((null? lista)
         0)
        (else
         (/ (sum lista)  (length lista)))))
-
+;;Funcion que devuelve el cuadrado de un numero
 (define(cuadrado num)
   (* num num))
-
+;;Funcion que devuelve la hipotenusa de dos medidas
 (define(hipotenusa a b)
   (cond((zero? a)
         (cuadrado b))
@@ -243,7 +266,7 @@ Estructura del balon
         (cuadrado a))
        (else
         (+ (cuadrado a) (cuadrado b)))))
-
+;;Funcion que devuelve el elemento de una lista en una posicion dada.
 (define(elemento index lista)
   (cond((null? lista)
         '())
@@ -251,7 +274,7 @@ Estructura del balon
         (car lista))
        (else
         (elemento (- index 1) (cdr lista)))))
-
+;;Funcion que devuelve el elemento mayor de una lista
 (define(mayor ele lista)
   (cond((null? lista)
         ele)
@@ -259,13 +282,13 @@ Estructura del balon
         (mayor (car lista) (cdr lista)))
        (else
         (mayor ele (cdr lista)))))
-
+;;Funcion que aplica una funcion dada a una lista
 (define(aplicar fun lista)
   (cond((null? lista)
         '())
        (else
         (cons (fun (car lista)) (aplicar fun (cdr lista))))))
-
+;;Funcion que reproduce dos padres
 (define(reproduccion parentA parentB)
   (cond((null? parentA)
         parentB)
@@ -290,7 +313,7 @@ Estructura del balon
   (cond((null? lista)
         0)
        (else
-        (elemento (mayor(aptitud lista)) lista))))
+        (mayor(aptitud lista)))))
 
 (define(mutacion lista)
   (cond((null? lista)
@@ -302,27 +325,4 @@ Estructura del balon
   (cond((null? lista)
         lista)
        (mutacion-aux (cdr lista) mutacion (+ resultado porcentaje (car lista))))) 
-
-(define(algoritmo-genetico lista)
-  (cond((null? lista)
-        0)
-       (else
-        (mutacion(seleccion(reproduccion (car lista) (cdr lista)))))))
-
-(define (seleccionar_azar_aux lista iteracion pos_por_mutar)
-  (cond ((null lista?) '())
-        ((equal? (car pos_por_mutar) iteracion) (cons (mutar_pos (car lista)) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (cdr pos_por_mutar))))
-        (else
-         (cons (car lista) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (pos_por_mutar))))))
-
-(define (hacer_lista_random cant)
-  (cond((zero? cant) '())
-       (else
-        (cons (random 1 4)(hacer_lista_random (- cant 1))))))
-
-(define (mutar_pos elemento)
-  (mutar_pos_aux (binario elemento) (random 0 5) 0))
-(define (mutar_pos_aux num_binario pos iteracion)
-  (cond ((zer
-
 
