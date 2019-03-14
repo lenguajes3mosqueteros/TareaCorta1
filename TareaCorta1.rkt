@@ -4,7 +4,8 @@
 ;; Mariano Munioz Masis, Karla Rivera Sanchez, Daniel Prieto Sibaja
 ;; 2016121607, 2016100425, 2016072504
 ;;
-;;Fixing
+;;Listo!
+
 #|
 
 ;; Estructura completa
