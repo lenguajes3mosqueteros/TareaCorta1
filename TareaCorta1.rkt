@@ -5,11 +5,11 @@
 ;; 2016121607, 2016100425, 2016072504
 ;;
 ;;Listo!
-
-#|
 #lang racket
 (require (lib "graphics.ss" "graphics"))
 (open-graphics)
+#|
+
 ;; Estructura completa
 (E1
   (((2 13 6 4 (84 568) 17 0 defensa)
@@ -47,7 +47,7 @@ Estructura del balon
 ;;#2
 ;;#3
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-#lang racket
+
 ;;CONSTANTES
 (define largo_campo 1350)
 (define ancho_campo 650) 
@@ -274,7 +274,7 @@ Estructura del balon
        (else
         (append(aptitud-aux(car lista))(aptitud (cdr lista))))))
 
-(define(aptitud-aux)
+(define(aptitud-aux lista)
   (cond((null? lista)
         0)
        (else
@@ -299,7 +299,7 @@ Estructura del balon
 
 
 (define (seleccionar_azar_aux lista iteracion pos_por_mutar)
-  (cond ((null lista?) '())
+  (cond ((null? lista) '())
         ((equal? (car pos_por_mutar) iteracion) (cons (mutar_pos (car lista)) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (cdr pos_por_mutar))))
         (else
          (cons (car lista) (seleccionar_azar_aux (cdr lista) (+ iteracion 1) (pos_por_mutar))))))
@@ -310,9 +310,7 @@ Estructura del balon
         (cons (random 1 4)(hacer_lista_random (- cant 1))))))
 
 (define (mutar_pos elemento)
-  (mutar_pos_aux (binario elemento) (random 0 5) 0))
-(define (mutar_pos_aux num_binario pos iteracion)
-  (cond ((zer
+  0)
 
 (define ventanaSecundaria (open-viewport "ConcaChampionsCE" 1350 700))
 (define ventanaCampo (open-pixmap "ConcaChampionsCE" 1350 700))
@@ -385,13 +383,12 @@ Estructura del balon
           (movimientoJugadores_aux jugador velocidad (+ posXI velocidad) (+ posYI velocidad) posXF posYF)))))    
         
 (define (Juego posX posY velocidad)
- 
   (dibujarCampo 0)
   (mover 
   ((draw-solid-ellipse ventanaCampo) (make-posn posX posY) 40 40 "white")
   (copy-viewport ventanaCampo ventanaSecundaria)
   ((clear-viewport ventanaCampo))
   (Juego (+ posX velocidad) (+ posY velocidad) velocidad)
-  )
+  ))
 
 (Juego 300 400 1)
