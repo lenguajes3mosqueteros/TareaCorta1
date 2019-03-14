@@ -5,9 +5,15 @@
 ;; 2016121607, 2016100425, 2016072504
 ;;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
 ;;NO VEO A NADIE HACIENDO CAMBIOS
 ;;NECESITAMOS AVANZAR 
+>>>>>>> cc1f87a69c04506be621131886587903da9610ed
 
+>>>>>>> 94d0135fca43cc7774f141cc90bbcbd3d5e92124
 #|
 
 ;; Estructura completa
