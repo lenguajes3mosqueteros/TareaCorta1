@@ -7,7 +7,9 @@
 ;;Listo!
 
 #|
-
+#lang racket
+(require (lib "graphics.ss" "graphics"))
+(open-graphics)
 ;; Estructura completa
 (E1
   (((2 13 6 4 (84 568) 17 0 defensa)
@@ -312,3 +314,84 @@ Estructura del balon
 (define (mutar_pos_aux num_binario pos iteracion)
   (cond ((zer
 
+(define ventanaSecundaria (open-viewport "ConcaChampionsCE" 1350 700))
+(define ventanaCampo (open-pixmap "ConcaChampionsCE" 1350 700))
+
+(define (dibujarCampo goles)
+  (begin
+    ((draw-viewport ventanaCampo)  "Dark Green")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 0 0) 1350 50 "white")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 0 50) 450 650 "Forest Green")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 900 50) 900 650 "Forest Green")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 0 225) 200 300 "Lime Green")
+    ((draw-rectangle ventanaCampo) (make-posn 0 225) 200 300 "white")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 0 300) 90 150 "Forest Green")
+    ((draw-rectangle ventanaCampo) (make-posn 0 300) 90 150 "white")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 1150 225) 200 300 "Lime Green")
+    ((draw-rectangle ventanaCampo) (make-posn 1150 225) 200 300 "white")
+    ((draw-solid-rectangle ventanaCampo) (make-posn 1260 300) 90 150 "Forest Green")
+    ((draw-rectangle ventanaCampo) (make-posn 1260 300) 90 150 "white")
+    ((draw-solid-ellipse ventanaCampo) (make-posn 570 280) 200 200 "Lime Green")
+    ((draw-ellipse ventanaCampo) (make-posn 570 280) 200 200 "white")
+    ((draw-line ventanaCampo) (make-posn 670 0) (make-posn 670 700) "white")
+    ((draw-string ventanaCampo) (make-posn 0 20 )  "Conca Champions" "black"))
+    )
+;(define cant (make-posn (random 0 1350) (random 50 600) ))
+(define jug1e1 ((draw-solid-ellipse ventanaCampo) (make-posn 200 300) 40 40 "blue"))
+(define jug1e2 ((draw-solid-ellipse ventanaCampo) (make-posn (random 0 1350) (random 60 600)) 40 40 "red"))
+(define bola ((draw-solid-ellipse ventanaCampo) (make-posn 650 360) 40 40 "white"))
+
+(define (interseccion)
+  (cond  ((jug1e1)
+        #t)))
+
+(define (patear)
+  (cond  ((jug1e1)
+        #t)))
+
+(define (dibujarJugador posx posy)
+  ((draw-solid-rectangle ventanaCampo) (make-posn posx posy) 40 40 "blue"))
+
+(define (mover posXI posYI posXF posYF velocidad)
+  (cond ((and (equal? posXI posXF) (equal? posYI posYF)
+              ((draw-string ventanaCampo) (make-posn 50 20 )  "Se termino de mover" "black")))
+         ((or (< posXI posXF) (< posYI posYF))
+          (dibujarJugador (+ posXI velocidad) (+ posYI velocidad)))))   
+  
+(define (movimientoJugadores jugador equipo velocidad posXI posYI posXF posYF)
+  (cond ((interseccion)
+        (patear))
+        (else (movimientoJugadores_aux jugador equipo velocidad posXI posYI posXF posYF))))
+
+(define (movimientoJugadores_aux jugador equipo velocidad posXI posYI posXF posYF)
+  (cond ((equal? equipo "Equipo1")
+         (movimientoJugadoresE1_aux jugador velocidad posXI posYI posXF posYF))
+        (else movimientoJugadoresE2_aux jugador velocidad posXI posYI posXF posYF)))
+         
+
+(define (movimientoJugadoresE1_aux jugador velocidad posXI posYI posXF posYF)
+  (cond ((and (equal? posXI posXF) (equal? posYI posYF))
+         0)
+        ((equal? jugador "defensa")
+         (and (> posXF
+         ((and (< posXI posXF) (< posYI posYF))
+          (movimientoJugadores_aux jugador velocidad (+ posXI velocidad) (+ posYI velocidad) posXF posYF)))))))
+
+(define (movimientoJugadoresE2_aux jugador velocidad posXI posYI posXF posYF)
+  (cond ((and (equal? posXI posXF) (equal? posYI posYF))
+         0)
+        ((equal? jugador "defensa")
+         ((and (< posXI posXF) (< posYI posYF))
+          (movimientoJugadores_aux jugador velocidad (+ posXI velocidad) (+ posYI velocidad) posXF posYF)))))    
+        
+(define (Juego posX posY velocidad)
+ 
+  (dibujarCampo 0)
+  (mover 
+  ((draw-solid-ellipse ventanaCampo) (make-posn posX posY) 40 40 "white")
+  (copy-viewport ventanaCampo ventanaSecundaria)
+  ((clear-viewport ventanaCampo))
+  (Juego (+ posX velocidad) (+ posY velocidad) velocidad)
+  )
+
+(Juego 300 400 1)
