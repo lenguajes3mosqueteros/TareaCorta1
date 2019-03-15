@@ -339,11 +339,11 @@ Estructura del balon
 (define jug1e2 ((draw-solid-ellipse ventanaCampo) (make-posn (random 0 1350) (random 60 600)) 40 40 "red"))
 (define bola ((draw-solid-ellipse ventanaCampo) (make-posn 650 360) 40 40 "white"))
 
-(define (interseccion)
+(define (interseccion jugador)
   (cond  ((jug1e1)
         #t)))
 
-(define (patear)
+(define (patear jugador)
   (cond  ((jug1e1)
         #t)))
 
@@ -357,8 +357,8 @@ Estructura del balon
           (dibujarJugador (+ posXI velocidad) (+ posYI velocidad)))))   
   
 (define (movimientoJugadores jugador equipo velocidad posXI posYI posXF posYF)
-  (cond ((interseccion)
-        (patear))
+  (cond ((interseccion jugador)
+        (patear jugador))
         (else (movimientoJugadores_aux jugador equipo velocidad posXI posYI posXF posYF))))
 
 (define (movimientoJugadores_aux jugador equipo velocidad posXI posYI posXF posYF)
@@ -384,11 +384,10 @@ Estructura del balon
         
 (define (Juego posX posY velocidad)
   (dibujarCampo 0)
-  (mover 
   ((draw-solid-ellipse ventanaCampo) (make-posn posX posY) 40 40 "white")
   (copy-viewport ventanaCampo ventanaSecundaria)
   ((clear-viewport ventanaCampo))
   (Juego (+ posX velocidad) (+ posY velocidad) velocidad)
-  ))
+  )
 
-(Juego 300 400 1)
+(Juego (random 100 900) (random 70 300) 1)
